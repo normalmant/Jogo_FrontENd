@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portas do Destino</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tema.css">
+     
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 1. LANDING -->
+    <div id="landing" class="screen active">
+        <header>
+            <h1>🚪 PORTAS DO DESTINO 🚪</h1>
+            <p class="subtitle">Um jogo de raciocínio, upgrades e batalhas épicas!</p>
+        </header>
+        <div class="hero">
+            <img src="ideia.jpeg" alt="Teste de Raciocínio" class="hero-img">
+            <div class="hero-text">
+                <h2>Escolha com sabedoria...</h2>
+                <p>Em cada sala você encontrará <strong>5 portas</strong>. Apenas algumas são seguras. As outras escondem perigos, baús ou chefes poderosos!</p>
+                <p>Controle seu personagem, escolha skins, melhore equipamentos ridículos e lendários e tente sobreviver o máximo de salas possível!</p>
+            </div>
+        </div>
+        <section class="features">
+            <div class="feature">
+                <h3>🛡️ Equipamentos Únicos</h3>
+                <p>15 níveis de armadura, espada e escudo. Do graveto até a esmeralda, do teclado ao Escudo do Capitão América!</p>
+            </div>
+            <div class="feature">
+                <h3>⚔️ Batalhas & Baús</h3>
+                <p>Bosses variados, baús de tesouro com poções e itens especiais. Estratégia importa!</p>
+            </div>
+            <div class="feature">
+                <h3>🏆 Ranking</h3>
+                <p>Sobreviva o máximo de salas e entre no ranking. Seu nome e skin ficarão registrados!</p>
+            </div>
+        </section>
+        <div class="cta">
+            <button id="btn-start" class="btn-primary">COMEÇAR</button>
+            <button id="btn-ranking-landing" class="btn-secondary" style="margin-left:15px">🏆 Ranking</button>
+            <p class="credits">Desenvolvido para a disciplina de Front-end • HTML, CSS e JavaScript puro</p>
+        </div>
+    </div>
+
+    <!-- 2. SETUP: NOME + SKIN -->
+    <div id="setup" class="screen">
+        <div class="setup-box">
+            <h2>👤 Quem é você, aventureiro?</h2>
+            <div class="name-section">
+                <label for="player-name">Digite seu nome (único):</label>
+                <input type="text" id="player-name" maxlength="16" placeholder="Seu nome aqui..." autocomplete="off">
+                <p id="name-error" class="error-msg hidden">Esse nome já está em uso! Escolha outro.</p>
+            </div>
+            <h3>Escolha sua Skin</h3>
+            <p class="skin-hint">A skin fica visível por baixo da armadura</p>
+            <div class="skin-carousel">
+                <button id="skin-prev" class="carousel-btn">◀</button>
+                <div class="skin-display">
+                    <div class="skin-side left" id="skin-left"></div>
+                    <div class="skin-main" id="skin-main"></div>
+                    <div class="skin-side right" id="skin-right"></div>
+                </div>
+                <button id="skin-next" class="carousel-btn">▶</button>
+            </div>
+            <div class="skin-name" id="skin-name">Batman</div>
+            <div class="skin-dots" id="skin-dots"></div>
+            <button id="btn-confirm-setup" class="btn-primary" style="margin-top:25px">ENTRAR NO JOGO</button>
+            <button id="btn-back-landing" class="btn-secondary" style="margin-top:10px">Voltar</button>
+        </div>
+    </div>
+
+    <!-- 3. JOGO -->
+    <div id="game" class="screen">
+        <div id="hud">
+            <div class="hud-left">
+                <div class="stat">❤️ <span id="hp">100</span>/<span id="max-hp">100</span></div>
+                <div class="stat">⚔️ <span id="atk">5</span></div>
+                <div class="stat">🛡️ <span id="def">3</span></div>
+                <div class="stat">🧪 <span id="potion-count">0</span></div>
+            </div>
+            <div class="hud-center">
+                <div id="room-info">Sala 1 / 1000</div>
+                <div id="message">Use ← → para mover | Espaço para abrir</div>
+            </div>
+            <div class="hud-right">
+                <button id="btn-inventory" class="btn-small">🎒 Inventário</button>
+                <button id="btn-codex" class="btn-small">📖 Coleção</button>
+                <button id="btn-ranking-game" class="btn-small">🏆 Ranking</button>
+            </div>
+        </div>
+        <div id="game-area">
+            <div id="room">
+                <div id="doors-container"></div>
+                <div id="player">
+                    <div class="player-sprite" id="player-sprite"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTÁRIO -->
+    <div id="inventory-panel" class="panel hidden">
+        <div class="mc-panel">
+            <h2>🎒 Inventário</h2>
+            <div class="inv-section">
+                <h3>Equipamentos</h3>
+                <div class="equip-grid" id="equip-grid"></div>
+            </div>
+            <div class="inv-section">
+                <h3>Itens / Poções</h3>
+                <div class="items-grid" id="items-grid"></div>
+            </div>
+            <button id="btn-close-inv" class="btn-secondary">Fechar (Esc)</button>
+        </div>
+    </div>
+
+    <!-- CÓDEX -->
+    <div id="codex-panel" class="panel hidden">
+        <div class="mc-panel wide">
+            <div class="codex-tabs">
+                <button class="codex-tab active" data-tab="gear">⚔️ Equipamentos</button>
+                <button class="codex-tab" data-tab="items">🧪 Itens</button>
+            </div>
+            <div id="codex-gear" class="codex-content"></div>
+            <div id="codex-items" class="codex-content hidden"></div>
+            <button id="btn-close-codex" class="btn-secondary">Fechar</button>
+        </div>
+    </div>
+
+    <!-- RANKING -->
+    <div id="ranking-panel" class="panel hidden">
+        <div class="mc-panel">
+            <h2>🏆 Ranking de Sobreviventes</h2>
+            <div id="ranking-list"></div>
+            <button id="btn-close-ranking" class="btn-secondary">Fechar</button>
+        </div>
+    </div>
+
+    <!-- UPGRADE -->
+    <div id="upgrade-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>✨ Porta Segura!</h2>
+            <p>Escolha <strong>2 equipamentos</strong> para evoluir:</p>
+            <div id="upgrade-choices" class="choices-grid"></div>
+            <p id="upgrade-selected">Selecionados: 0/2</p>
+            <button id="btn-confirm-upgrade" class="btn-primary" disabled>Confirmar</button>
+        </div>
+    </div>
+
+    <!-- BUFF -->
+    <div id="buff-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🌟 Escolha um Buff</h2>
+            <div id="buff-choices" class="choices-grid"></div>
+        </div>
+    </div>
+
+    <!-- BATALHA VISUAL -->
+    <div id="battle-modal" class="modal hidden">
+        <div class="modal-content battle-visual">
+            <div class="battle-header"><span id="boss-name-display">Boss</span></div>
+            <div class="battle-arena-visual">
+                <div class="fighter-box player-box">
+                    <div class="fighter-sprite" id="player-battle-sprite">🦸</div>
+                    <div class="hp-container">
+                        <div class="hp-bar-bg"><div id="player-hp-bar" class="hp-bar player-bar"></div></div>
+                        <span id="player-hp-text">100/100</span>
+                    </div>
+                </div>
+                <div class="battle-center">
+                    <div id="damage-float" class="damage-float hidden"></div>
+                    <div class="vs-big">VS</div>
+                </div>
+                <div class="fighter-box boss-box">
+                    <div class="fighter-sprite" id="boss-sprite">👹</div>
+                    <div class="hp-container">
+                        <div class="hp-bar-bg"><div id="boss-hp-bar" class="hp-bar boss-bar"></div></div>
+                        <span id="boss-hp-text">100/100</span>
+                    </div>
+                </div>
+            </div>
+            <div class="battle-actions">
+                <button id="btn-attack" class="btn-primary">⚔️ Atacar</button>
+                <button id="btn-defend" class="btn-secondary">🛡️ Defender</button>
+                <button id="btn-use-item" class="btn-secondary">🧪 Usar Item</button>
+            </div>
+            <div id="item-quick" class="item-quick hidden"></div>
+        </div>
+    </div>
+
+    <!-- DEBUFF -->
+    <div id="debuff-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>💀 Porta Maldita!</h2>
+            <p id="debuff-text">Você recebeu um debuff...</p>
+            <button id="btn-debuff-ok" class="btn-primary">Continuar</button>
+        </div>
+    </div>
+
+    <!-- BAÚ -->
+    <div id="chest-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🎁 Baú do Tesouro!</h2>
+            <p>Você encontrou itens:</p>
+            <div id="chest-items" class="chest-grid"></div>
+            <button id="btn-chest-ok" class="btn-primary">Pegar tudo</button>
+        </div>
+    </div>
+
+    <!-- FIM -->
+    <div id="end-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="end-title">Fim de Jogo</h2>
+            <p id="end-message"></p>
+            <p id="end-rank-info"></p>
+            <button id="btn-restart" class="btn-primary">Jogar Novamente</button>
+            <button id="btn-view-ranking-end" class="btn-secondary" style="margin-top:10px">Ver Ranking</button>
+        </div>
+    </div>
+
+    <!-- Firebase (ranking global) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+   
+</html>
