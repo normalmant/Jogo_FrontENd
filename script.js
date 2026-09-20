@@ -1070,7 +1070,7 @@ setInterval(highlightNearestDoor, 180);
 // MELHORIAS: cole este bloco no FINAL do seu script.js (depois da última linha)
 // ===================================================================
 // Tempo de recarga entre ações (ms). Ajuste aqui, entre 3000 e 5000.
-const COOLDOWN = { attack: 10, defend: 10, item: 10, door: 10 };
+const COOLDOWN = { attack: 3000, defend: 3000, item: 3000, door: 3000 };
 let actionLocked = false, doorLocked = false, gameEnded = false;
 let cdTimer, doorTimer, floatTimer, walkTimer;
 
